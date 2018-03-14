@@ -1,17 +1,157 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>
+      Ionic Communicata
+    </ion-title>
+    <ion-buttons end>
+
+
+       <!-- Display the Join Chat session button IF the displayRegisterAlias
+            value is set to true -->
+       <button
+          *ngIf="displayRegisterAlias"
+          ion-button
+          color="danger"
+          (click)="registerAlias()">Join!</button>
+
+
+       <!-- Display the Export Chat session button IF the displayRegisterAlias
+            value is set to false -->
+       <button start
+          *ngIf="!displayRegisterAlias"
+          ion-button
+          color="danger"
+          (click)="exportMessages()">
+          <ion-icon name="cloud-download"></ion-icon>
+      </button>
+
+
+       <!-- Display the Chat Logout button IF the displayRegisterAlias
+            value is set to false -->
+       <button end
+          *ngIf="!displayRegisterAlias"
+          ion-button
+          color="danger"
+          (click)="logOut()">
+          <ion-icon name="close"></ion-icon>
+       </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
+
+
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+
+   <!-- IF the displayRegisterAlias value is set to true then the
+        user HASN'T joined the chat session so we display a message
+        encouraging them to join -->
+   <section
+      *ngIf="displayRegisterAlias"
+      class="message">
+      <h1>Join now to see the chat!</h1>
+   </section>
+
+
+
+   <!-- IF the displayRegisterAlias value is set to false then the
+        user HAS joined the chat session so we display the current
+        list of messages -->
+   <div
+      *ngIf="!displayRegisterAlias"
+      class="chat-messages">
+   	  <section
+   	     *ngFor="let message of messages">
+
+
+         <!-- Here we use Angular 4+ If/then & else syntax to assign the correct
+              template for each posted message (is the current message from the
+              user who has just joined or not? If it is then we need to assign a
+              specific CSS class to differentiate the messages by sender) -->
+   	     <section *ngIf="message.sender == alias;then senderTemplate; else recipientTemplate"></section>
+
+
+         <!-- IF the message was sent by the user who has just joined then we use this template -->
+   	     <ng-template #senderTemplate>
+   	     	<section  class="chat-message sender">
+   	     	   <p>{{ message.message }}</p>
+
+
+               <!-- IF an image has been posted then we need to display that -->
+               <img *ngIf="message.image" [src]="message.image">
+
+
+               <!-- Display the sender details -->
+               <section class="message-footer">
+               	<small>Posted by {{ message.sender }} ({{ message.tagline }}) from {{ message.location }} on {{ message.published | date: "medium" }}</small>
+               </section>
+            </section>
+   	     </ng-template>
+
+
+
+
+   	     <!-- IF the message was NOT sent by the user who has just joined then we use this template instead -->
+   	     <ng-template #recipientTemplate>
+   	     	<section  class="chat-message other">
+   	     	   <p>{{ message.message }}</p>
+
+
+               <!-- IF an image has been posted then we need to display that -->
+               <img *ngIf="message.image" [src]="message.image">
+
+               <!-- Display the sender details -->
+               <section class="message-footer">
+               	<small>Posted by {{ message.sender }} ({{ message.tagline }}) from {{ message.location }} on {{ message.published | date: "medium" }}</small>
+               </section>
+            </section>
+   	     </ng-template>
+   	  </section>
+   </div>
+
+
+
 </ion-content>
+
+<!-- Conditionally display the input field for creating chat messages IF the user has 'logged in' -->
+<ion-footer
+   *ngIf="!displayRegisterAlias"
+   class="footer">
+   <ion-grid padding>
+      <ion-row>
+
+
+         <!-- Display input field for selecting image files -->
+         <ion-col col-2>
+         	<div class="upload-button-wrapper" color="primary">
+               <ion-icon name="image"></ion-icon>
+               <input
+                  class="file-upload-button"
+                  type="file"
+                  (change)="selectImage($event)">
+            </div>
+         </ion-col>
+
+
+         <!-- Display input field for entering text message -->
+         <ion-col col-8>
+            <ion-input
+               type="text"
+               placeholder="Your chat message..."
+	           [(ngModel)]="message"></ion-input>
+         </ion-col>
+
+
+         <!-- Post the image or text message for the current chat session -->
+         <ion-col col-1>
+            <button
+	           ion-button
+	           clear
+	           color="primary"
+	           (click)="addMessage()">
+	           Add
+	        </button>
+         </ion-col>
+      </ion-row>
+   </ion-grid>
+</ion-footer>

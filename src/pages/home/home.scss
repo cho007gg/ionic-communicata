@@ -1,3 +1,104 @@
 page-home {
 
+  ion-icon {
+     font-size: 2em;
+  }
+
+  /*
+     Allow chat messages to 'clear' the footer
+   */
+  .scroll-content {
+     padding-bottom: 7.5em !important;
+  }
+
+
+
+  /*
+     Styling for the join chat notice
+   */
+  .message {
+
+     background: rgba(240,240,240,1);
+     text-align: center;
+     height: 100%;
+     padding: 0;
+     margin: 0;
+     display: -webkit-box;
+     display: -moz-box;
+     display: -ms-flexbox;
+     display: -webkit-flex;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+
+
+     h1 {
+        font-size: 1.5em;
+        tex-align: center;
+     }
+  }
+
+
+
+  /*
+     Styling for the chat messages
+   */
+  .chat-messages {
+      margin-bottom: 10em !important;
+      padding-bottom: 10em !important;
+
+     .chat-message {
+        padding: 1em;
+        margin: 1em 0;
+        border-radius: 1em;
+        width: 85%;
+     }
+
+     .sender {
+       float: left;
+        background: rgba(84, 130, 173, 0.27);
+     }
+
+     .other {
+        float: right;
+        background: rgba(130, 130, 130, 0.27);
+     }
+
+     .message-footer {
+        border-top: 1px solid rgba(180, 180, 180, 0.28);
+        padding: 5px 0 0 0;
+     }
+  }
+
+
+
+
+  /*
+     Styling for the HomePage footer/chat input fields
+   */
+  .footer {
+      background: rgba(230,230,230,1);
+  }
+
+  .upload-button-wrapper {
+     position: relative;
+     overflow: hidden;
+     margin: 10px;
+
+     .file-upload-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 1.2em;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0); // Play nice with older version of Internet Explorer :)
+     }
+  }
+
+  ion-input {
+     background: rgba(255, 255, 255, 1);
+  }
 }
